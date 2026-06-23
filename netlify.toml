@@ -1,6 +1,9 @@
 # exemplo deu um netlify.toml
 [build]
+<<<<<<< HEAD
   base = "botafogo/guia-LandingPage"
+=======
+>>>>>>> 3ca54e5264a764d55d0c9e56ce68c0a846721065
   command = "npm run build"
   publish = "dist"
   functions = "netlify/functions"
