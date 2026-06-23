@@ -35,7 +35,7 @@ export default function Home() {
 
         console.log("BOTÃO CLICADO");
 
-        const response = await fetch("/.netlify/functions/contact", {
+        const response = await fetch("/.netlify/functions/send-email", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
