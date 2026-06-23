@@ -27,6 +27,36 @@ import { useState, useEffect } from "react";
 export default function Home() {
     const [showMobileMenu, setShowMobileMenu] = useState(false);
 
+    const [email, setEmail] = useState("");
+    const [message, setMessage] = useState("");
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+
+        console.log("BOTÃO CLICADO");
+
+        const response = await fetch("/.netlify/functions/contact", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                email,
+                message,
+            }),
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            alert("Mensagem enviada com sucesso!");
+            setEmail("");
+            setMessage("");
+        } else {
+            alert(data.error);
+        }
+    };
+
     useEffect(() => {
         const html = document.querySelector("html");
         if (html) {
@@ -434,15 +464,19 @@ export default function Home() {
                     </p>
                 </header>
 
-                <form>
+                <form onSubmit={handleSubmit}>
                     <input
                         type="email"
                         placeholder="Seu e-mail"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
                     />
 
                     <input
                         type="text"
                         placeholder="Digite sua mensagem"
+                        value={message}
+                        onChange={(e) => setMessage(e.target.value)}
                     />
 
                     <Button text="Enviar" />
