@@ -75,19 +75,53 @@ const handler: Handler = async (event: HandlerEvent) => {
   });
 
     try {
-    await transporter.sendMail({
-      from: `<${process.env.SMTP_USER}>`,
-      replyTo: email,
-      to: process.env.CONTACT_EMAIL,
-      subject: "[Dona Frost] Nova mensagem Landing Page",
-      text: message,
-      html: `
-        <h2>Nova mensagem de contato</h2>
-        <p><strong>E-mail:</strong> ${email}</p>
-        <p><strong>Mensagem:</strong></p>
-        <p>${message.replace(/\n/g, "<br>")}</p>
-      `,
-    });
+  await transporter.sendMail({
+    from: `<${process.env.SMTP_USER}>`,
+    replyTo: email,
+    to: process.env.CONTACT_EMAIL,
+    subject: "⚽ Nova mensagem recebida - Site Botafogo",
+    text: `
+E-mail: ${email}
+
+Mensagem:
+${message}
+    `,
+    html: `
+      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px;">
+        
+        <h1 style="text-align: center; color: #000;">
+          ⚽ Botafogo
+        </h1>
+
+        <hr>
+
+        <h2>Nova mensagem enviada pelo site</h2>
+
+        <p>
+          <strong>E-mail do torcedor:</strong><br>
+          ${email}
+        </p>
+
+        <p>
+          <strong>Mensagem:</strong><br>
+          ${message.replace(/\n/g, "<br>")}
+        </p>
+
+        <hr>
+
+        <p style="font-size: 12px; color: #666;">
+          Esta mensagem foi enviada através do formulário de contato do site do Botafogo.
+        </p>
+
+      </div>
+    `,
+  });
+
+  return {
+    statusCode: 200,
+    headers: corsHeaders(origin),
+    body: JSON.stringify({ message: "E-mail enviado com sucesso." }),
+  };
 
     return {
       statusCode: 200,
