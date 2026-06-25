@@ -22,6 +22,7 @@ import "../styles/header.css";
 import "../styles/utility.css";
 import "../styles/solution.css";
 import { useState, useEffect } from "react";
+import { toast } from "react-toastify";
 
 
 export default function Home() {
@@ -46,14 +47,12 @@ export default function Home() {
             }),
         });
 
-        const data = await response.json();
-
         if (response.ok) {
-            alert("Mensagem enviada com sucesso!");
+            toast.success("Mensagem enviada com sucesso!");
             setEmail("");
             setMessage("");
         } else {
-            alert(data.error);
+            toast.error("Erro ao enviar a mensagem.");
         }
     };
 
